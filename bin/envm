@@ -6,6 +6,7 @@ require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 use SushanJobins\EnvChecker\EnvChecker;
 use SushanJobins\EnvChecker\Helpers\CliHelper;
 use SushanJobins\EnvChecker\Commands\DryRunCommand;
+use SushanJobins\EnvChecker\Commands\HelpCommand;
 use SushanJobins\EnvChecker\Commands\InfoStatusCommand;
 use SushanJobins\EnvChecker\Commands\SyncCommand;
 
@@ -26,6 +27,23 @@ if (!empty($missingFiles)) {
     }
 
     exit(1);
+}
+
+/**
+ * Validate CLI arguments.
+ */
+if (!CliHelper::isValidCommand($argv)) {
+   exit(1);
+}
+
+/**
+ * Handles help option.
+ */
+if (CliHelper::isHelp($argv)) {
+    $command = new HelpCommand();
+    $command->handle();
+
+    exit(0);
 }
 
 /**
