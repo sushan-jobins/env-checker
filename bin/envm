@@ -10,6 +10,13 @@ use SushanJobins\EnvChecker\Commands\HelpCommand;
 use SushanJobins\EnvChecker\Commands\InfoStatusCommand;
 use SushanJobins\EnvChecker\Commands\SyncCommand;
 
+/**
+ * Validate CLI arguments.
+ */
+if (!CliHelper::isValidCommand($argv)) {
+   exit(1);
+}
+
 $path = getcwd();
 $checker = new EnvChecker();
 $files = $checker->check($path);
@@ -29,12 +36,7 @@ if (!empty($missingFiles)) {
     exit(1);
 }
 
-/**
- * Validate CLI arguments.
- */
-if (!CliHelper::isValidCommand($argv)) {
-   exit(1);
-}
+
 
 /**
  * Handles help option.
