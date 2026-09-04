@@ -34,13 +34,12 @@ composer global show sushan-jobins/env-checker
 ```
 
 ---
-
-## Verify Installation
+## Update the installation
 
 Check that Composer installed the package:
 
 ```bash
-composer show sushan-jobins/env-checker
+composer global update sushan-jobins/env-checker
 ```
 
 ---
