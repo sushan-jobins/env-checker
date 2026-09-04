@@ -1,0 +1,17 @@
+{
+    "name": "sushan-jobins/env-checker",
+    "description": "A global CLI tool for checking and managing environment files",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SushanJobins\\EnvChecker\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/envm"
+    ]
+}

@@ -1,0 +1,57 @@
+#!/usr/bin/env php
+<?php
+
+require $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+use SushanJobins\EnvChecker\EnvChecker;
+use SushanJobins\EnvChecker\Helpers\CliHelper;
+use SushanJobins\EnvChecker\Commands\DryRunCommand;
+use SushanJobins\EnvChecker\Commands\InfoStatusCommand;
+use SushanJobins\EnvChecker\Commands\SyncCommand;
+
+$path = getcwd();
+$checker = new EnvChecker();
+$files = $checker->check($path);
+$missingFiles = [];
+
+foreach ($files as $file => $exists) {
+    if (!$exists) {
+        $missingFiles[] = $file;
+    }
+}
+
+if (!empty($missingFiles)) {
+    foreach ($missingFiles as $file) {
+        echo "\033[31mError: {$file} file not found.\033[0m\n";
+    }
+
+    exit(1);
+}
+
+/**
+ * Handles the dry-run operation.
+ */
+if (CliHelper::isDryRun($argv)) {
+    $command = new DryRunCommand($checker);
+    $command->handle($path);
+
+    exit(0);
+}
+
+/**
+ * Handles the environment variable status information.
+ */
+if (CliHelper::isInfoStatus($argv)) {
+    $command = new InfoStatusCommand();
+    $command->handle();
+
+    exit(0);
+}
+
+/**
+ * Handles standard synchronization and status display.
+ */
+$command = new SyncCommand($checker);
+$command->handle($argv, $path);
+
+exit(0);
